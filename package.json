@@ -8,7 +8,10 @@
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha",
+    "lint": "eslint *.js lib/*.js test/*.js public/js/*.js",
+    "cover": "nyc npm test",
+    "alltests": "npm run cover && npm run lint",
     "start": "node server.js"
   },
   "repository": {
@@ -20,5 +23,9 @@
   "bugs": {
     "url": "https://github.com/step-batch-7/todo-abhilashkasula/issues"
   },
-  "homepage": "https://github.com/step-batch-7/todo-abhilashkasula#readme"
+  "homepage": "https://github.com/step-batch-7/todo-abhilashkasula#readme",
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "mocha": "^7.0.1"
+  }
 }
