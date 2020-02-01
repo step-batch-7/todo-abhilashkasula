@@ -1,0 +1,25 @@
+-------------TODO APP--------------
+
+data structure: [
+                  {
+                    title: some title,
+                    lists: [
+                      {
+                        list: list1,
+                        isDone: false
+                      },
+                      {
+                        list: list2,
+                        isDone: false
+                      }
+                    ]
+                  }
+                ]
+                
+
+[1] setup the folders,
+      npm init 
+      and add scripts.
+[2] write a html page just to load page /
+[3] keep textboxes, so that user can enter title and lists.
+[4] show the entered lists along with title.
