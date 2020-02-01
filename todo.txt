@@ -23,4 +23,5 @@ data structure: [
 --done--[2] write a html page just to load page /
 --done--[3] keep textboxes, so that user can enter title and lists.
 --done--[4] add the server
---done--[5] show the entered lists along with title.
+--done--[5] add a /addTask request to server
+--done--[6] show the entered lists along with title.
