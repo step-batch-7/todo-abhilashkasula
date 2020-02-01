@@ -47,3 +47,13 @@ describe('GET', () => {
     });
   });
 });
+
+describe('Invalid Method', () => {
+  it('should get method not found for requested invalid method', (done) => {
+    request(app.handleRequest.bind(app))
+      .put('/badPage')
+      .expect(statusCodes.METHOD_NOT_FOUND)
+      .expect('Content-Length', '16')
+      .expect('Method Not Found', done);
+  });
+});
