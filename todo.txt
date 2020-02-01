@@ -21,6 +21,6 @@ data structure: [
       npm init 
       and add scripts.
 --done--[2] write a html page just to load page /
-[3] keep textboxes, so that user can enter title and lists.
-[4] add the server
-[4] show the entered lists along with title.
+--done--[3] keep textboxes, so that user can enter title and lists.
+--done--[4] add the server
+--done--[5] show the entered lists along with title.
