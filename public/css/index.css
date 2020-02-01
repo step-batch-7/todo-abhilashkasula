@@ -1,0 +1,32 @@
+body {
+  font-family: sans-serif;
+  background-color: whitesmoke;
+}
+
+.title {
+  text-align: center;
+  font-size: 40px;
+  font-weight: 600;
+}
+
+.container {
+  margin: 25px;
+  height: 600px;
+  background-color: white;
+  border-radius: 5px;
+  border: 1px solid rgba(30, 30, 30, 0.3);
+  display: flex;
+}
+
+.todo-lists {
+  height: 100%;
+  width: 100%;
+  overflow: scroll;
+}
+
+.todo-adder {
+  border-left: 1px solid rgba(30, 30, 30, 0.3);
+  border-radius: 5px;
+  height: 100%;
+  width: 400px;
+}
