@@ -8,30 +8,77 @@ const addHeader = function() {
   taskAdder.appendChild(header);
 };
 
-const addTitleBox = function() {
-  const taskAdder = getTaskAdderBox();
+const getTitleBox = function() {
   const titleBox = document.createElement('input');
+  titleBox.setAttribute('type', 'text');
+  titleBox.setAttribute('name', 'title');
   titleBox.setAttribute('placeholder', 'Title');
+  titleBox.setAttribute('required', 'true');
   titleBox.classList.add('title-box', 'box');
-  taskAdder.appendChild(titleBox);
+  return titleBox;
 };
 
-const addCreateButton = function() {
-  const taskAdder = getTaskAdderBox();
+const getCreateButton = function() {
   const button = document.createElement('button');
   button.classList.add('create-task-button');
   button.textContent = 'Create';
-  taskAdder.appendChild(button);
+  return button;
+};
+
+const createForm = function() {
+  const taskAdder = getTaskAdderBox();
+  const form = document.createElement('form');
+  form.setAttribute('action', 'saveTask');
+  form.setAttribute('method', 'POST');
+  form.appendChild(getTitleBox());
+  form.appendChild(getCreateButton());
+  taskAdder.appendChild(form);
 };
 
 const setupTodoAdder = function() {
   addHeader();
-  addTitleBox();
-  addCreateButton();
+  createForm();
+};
+
+const sendHttpGet = (url, callback) => {
+  const req = new XMLHttpRequest();
+  req.onload = function(){
+    if(this.status === 200) {
+      callback(this.responseText);
+    }
+  };
+  req.open('GET', url);
+  req.send();
+};
+
+const generateSubTasksHtml = function(html, subTask) {
+  const generatedHtml = `<input type="checkbox" name="subTask" class="sub-task" value="${subTask.id}">
+  ${subTask.value}</br>`;
+  return html + generateHtml;
+};
+
+const generateHtml = function(html, task) {
+  const subTasksHtml = task.subTasks.reduce(generateSubTasksHtml, '');
+  const generatedHtml = `<div class="task-container" id="${task.id}">
+    <h3 class=task-title>${task.title}</h3>
+    ${subTasksHtml}
+  </div>`;
+  return html + generatedHtml;
+};
+
+const loadTasks = function() {
+  sendHttpGet('/tasks', text => {
+    const todoLists = document.querySelector('.todo-lists');
+    const tasks = JSON.parse(text);
+    const tasksHtml = tasks.reduce(generateHtml, '');
+    console.log(tasksHtml);
+    todoLists.innerHTML = tasksHtml;
+  });
 };
 
 const main = function() {
   setupTodoAdder();
+  loadTasks();
 };
 
 window.onload = main;

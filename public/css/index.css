@@ -51,5 +51,39 @@ body {
 
 .create-task-button {
   align-self: center;
-  margin-top: 20px;
+  background: linear-gradient(to bottom right, #3381ff, rgb(4, 108, 192));
+  border-radius: 4px;
+  padding: 5px;
+  margin: 20px 1px 0px 10px;
+  color: white;
+}
+
+.create-task-button:hover {
+  cursor: pointer;
+  background: linear-gradient(to bottom right, #2d73e2, rgb(4, 83, 148));
+}
+
+.create-task-button:focus {
+  outline: none;
+}
+
+.todo-lists {
+  height: 100%;
+  width: 100%;
+  overflow: scroll;
+}
+
+.task-title {
+  margin: 0px;
+  font-weight: 500;
+}
+
+.task-container {
+  color: rgba(41, 39, 39, 0.8);
+  margin: 5px;
+  border: 1px solid rgba(30, 30, 30, 0.3);
+  padding: 10px;
+  border-radius: 5px;
+  display: inline-block;
+  width: 200px;
 }
