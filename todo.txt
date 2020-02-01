@@ -22,4 +22,5 @@ data structure: [
       and add scripts.
 [2] write a html page just to load page /
 [3] keep textboxes, so that user can enter title and lists.
+[4] add the server
 [4] show the entered lists along with title.
