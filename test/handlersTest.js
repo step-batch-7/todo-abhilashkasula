@@ -3,7 +3,8 @@ const {app} = require('../lib/handlers');
 
 const statusCodes = {
   OK: 200,
-  NOT_FOUND: 404
+  NOT_FOUND: 404,
+  METHOD_NOT_FOUND: 405
 };
 
 describe('GET', () => {
@@ -22,7 +23,7 @@ describe('GET', () => {
         .get('/css/index.css')
         .expect(statusCodes.OK)
         .expect('Content-Type', 'text/css')
-        .expect('Content-Length', '954')
+        .expect('Content-Length', '880')
         .expect(/body {/, done);
     });
 
@@ -33,6 +34,16 @@ describe('GET', () => {
         .expect('Content-Type', 'application/javascript')
         .expect('Content-Length', '979')
         .expect(/window.onload = main/, done);
+    });
+  });
+
+  describe('Page Not Found', () => {
+    it('should get Not Found page for any bad requested page', (done) => {
+      request(app.handleRequest.bind(app))
+        .get('/badPage')
+        .expect(statusCodes.NOT_FOUND)
+        .expect('Content-Length', '9')
+        .expect('Not Found', done);
     });
   });
 });
