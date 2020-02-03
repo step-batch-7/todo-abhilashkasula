@@ -68,9 +68,8 @@ body {
 }
 
 .todo-lists {
-  display: flex;
-  flex-wrap: wrap;
   overflow: scroll;
+  padding: 0px 5px 5px 5px;
 }
 
 .task-title {
@@ -81,11 +80,13 @@ body {
 .task-container {
   color: rgba(41, 39, 39, 0.8);
   border: 1px solid rgba(30, 30, 30, 0.3);
-  margin: 5px;
+  margin-top: 13px;
   padding: 10px;
   border-radius: 5px;
-  width: 200px;
+  display: flex;
+  flex-direction: column;
 }
+
 .task-headline {
   display: flex;
   justify-content: space-between;
