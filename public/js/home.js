@@ -12,20 +12,19 @@ const addHeader = function() {
   taskAdder.appendChild(header);
 };
 
-const getTitleBox = function() {
+const getTextBox = function(classes, attributes) {
   const titleBox = document.createElement('input');
+  const keys = Object.keys(attributes);
   titleBox.setAttribute('type', 'text');
-  titleBox.setAttribute('name', 'title');
-  titleBox.setAttribute('placeholder', 'Title');
-  titleBox.setAttribute('required', 'true');
-  titleBox.classList.add('title-box', 'box');
+  keys.forEach(key => titleBox.setAttribute(key, attributes[key]));
+  classes.forEach(cssClass => titleBox.classList.add(cssClass));
   return titleBox;
 };
 
 const sendHttpGet = (url, callback) => {
   const req = new XMLHttpRequest();
-  req.onload = function(){
-    if(this.status === statusCodes.OK) {
+  req.onload = function() {
+    if (this.status === statusCodes.OK) {
       callback(this.responseText);
     }
   };
@@ -36,7 +35,7 @@ const sendHttpGet = (url, callback) => {
 const postHttpMsg = function(url, callback, message) {
   const req = new XMLHttpRequest();
   req.onload = function() {
-    if(this.status === statusCodes.OK) {
+    if (this.status === statusCodes.OK) {
       callback(this.responseText);
     }
   };
@@ -62,7 +61,8 @@ const getCreateButton = function() {
 const createForm = function() {
   const taskAdder = getTaskAdderBox();
   const div = document.createElement('div');
-  div.appendChild(getTitleBox());
+  const attributes = {placeholder: 'Title', required: 'true'};
+  div.appendChild(getTextBox(['title-box', 'box'], attributes));
   div.appendChild(getCreateButton());
   taskAdder.appendChild(div);
 };
@@ -81,7 +81,7 @@ const generateTasks = function(text) {
 };
 
 const deleteTask = function(event) {
-  const [,, task] = event.path;
+  const [, , task] = event.path;
   const taskId = task.id;
   postHttpMsg('/removeTask', generateTasks, `id=${taskId}`);
 };
@@ -106,31 +106,52 @@ const createTaskHeader = function(task) {
   return taskHeader;
 };
 
-const addSubTask = function() {
+const addSubTask = function() {};
 
+const generateSubtasks = function(subTasksHtml, subTask) {
+  let attribute = '';
+  let strikeHtml = subTask.task;
+  if (subTask.isDone) {
+    strikeHtml = `<strike>${subTask.task}</strike>`;
+    attribute = 'checked';
+  }
+  const subTaskHtml = `<p><input type="checkbox" id="${subTask.id}"${attribute}>
+    ${strikeHtml}</br></p>`;
+  return subTasksHtml + subTaskHtml;
+};
+
+const appendChildHtml = function(element, html) {
+  const temp = document.createElement('div');
+  temp.innerHTML = html;
+  element.appendChild(temp.firstChild);
 };
 
 const createSubTasks = function(task) {
   const subTasks = document.createElement('div');
-  const textBox = document.createElement('input');
-  const img = createImage('svg/plus.svg', ['svg', 'sub-task-svg'], addSubTask);
-  textBox.setAttribute('type', 'text');
-  textBox.setAttribute('placeholder', 'Add your subTask Here');
-  textBox.classList.add('box', 'sub-task-box');
-  subTasks.classList.add('sub-tasks-adder');
-  subTasks.appendChild(textBox);
-  subTasks.appendChild(img);
+  subTasks.classList.add('subtasks');
+  appendChildHtml(subTasks, task.subTasks.reduce(generateSubtasks, ''));
   return subTasks;
+};
+
+const createSubTasksAdder = function() {
+  const attributes = {placeholder: 'Add your subTask Here'};
+  const textBox = getTextBox(['sub-task-box', 'box'], attributes);
+  const img = createImage('svg/plus.svg', ['svg', 'sub-task-svg'], addSubTask);
+  const subTasksAdder = document.createElement('div');
+  subTasksAdder.classList.add('sub-tasks-adder');
+  subTasksAdder.appendChild(textBox);
+  subTasksAdder.appendChild(img);
+  return subTasksAdder;
 };
 
 const createTasks = function(task) {
   const taskContainer = document.createElement('div');
   const taskHeader = createTaskHeader(task);
-  const subTasks = createSubTasks(task);
   taskContainer.id = task.id;
   taskContainer.classList.add('task-container');
   taskContainer.appendChild(taskHeader);
-  taskContainer.appendChild(subTasks);
+  taskContainer.appendChild(createSubTasksAdder());
+  taskContainer.appendChild(createSubTasks(task));
   return taskContainer;
 };
 

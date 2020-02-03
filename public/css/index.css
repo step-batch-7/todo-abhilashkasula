@@ -123,3 +123,7 @@ body {
 .sub-task-box {
   width: 500px;
 }
+
+.subtasks {
+  padding-left: 40px;
+}
