@@ -55,14 +55,56 @@ const sendHttpGet = (url, callback) => {
   req.send();
 };
 
-const createTasks = function(task) {
-  const taskContainer = document.createElement('div');
+const postHttpMsg = function(url, callback, message) {
+  const req = new XMLHttpRequest();
+  req.onload = function() {
+    if(this.status === statusCodes.OK) {
+      callback(this.responseText);
+    }
+  };
+  req.open('POST', url);
+  req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  req.send(message);
+};
+
+const deleteTask = function(event) {
+  const [,, task] = event.path;
+  const taskId = task.id;
+  postHttpMsg('/removeTask', (text) => {
+    const todoLists = document.querySelector('.todo-lists');
+    const tasksJSON = JSON.parse(text);
+    const tasks = tasksJSON.map(createTasks);
+    todoLists.innerHTML = '';
+    tasks.forEach(task => todoLists.appendChild(task));
+  }, `id=${taskId}`);
+};
+
+const createImage = function(src, classes, eventListener) {
+  const img = document.createElement('img');
+  img.setAttribute('src', src);
+  classes.forEach(cssClass => img.classList.add(cssClass));
+  img.addEventListener('click', deleteTask);
+  return img;
+};
+
+const getTaskHeader = function(task) {
+  const taskHeader = document.createElement('div');
   const taskTitle = document.createElement('h3');
-  taskContainer.id = task.id;
-  taskContainer.classList.add('task-container');
+  const img = createImage('svg/remove.svg', ['svg'], deleteTask);
   taskTitle.classList.add('task-title');
   taskTitle.textContent = task.title;
-  taskContainer.appendChild(taskTitle);
+  taskHeader.classList.add('task-headline');
+  taskHeader.appendChild(taskTitle);
+  taskHeader.appendChild(img);
+  return taskHeader;
+};
+
+const createTasks = function(task) {
+  const taskContainer = document.createElement('div');
+  const taskHeader = getTaskHeader(task);
+  taskContainer.id = task.id;
+  taskContainer.classList.add('task-container');
+  taskContainer.appendChild(taskHeader);
   return taskContainer;
 };
 

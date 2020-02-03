@@ -24,7 +24,6 @@ describe('GET', () => {
         .get('/css/index.css')
         .expect(statusCodes.OK)
         .expect('Content-Type', 'text/css')
-        .expect('Content-Length', '1481')
         .expect(/body {/, done);
     });
 
@@ -33,7 +32,6 @@ describe('GET', () => {
         .get('/js/home.js')
         .expect(statusCodes.OK)
         .expect('Content-Type', 'application/javascript')
-        .expect('Content-Length', '2214')
         .expect(/window.onload = main/, done);
     });
 
