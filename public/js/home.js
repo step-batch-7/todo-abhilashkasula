@@ -1,3 +1,7 @@
+const statusCodes = {
+  OK: 200
+};
+
 const getTaskAdderBox = () => document.querySelector('.task-adder');
 
 const addHeader = function() {
@@ -43,7 +47,7 @@ const setupTodoAdder = function() {
 const sendHttpGet = (url, callback) => {
   const req = new XMLHttpRequest();
   req.onload = function(){
-    if(this.status === 200) {
+    if(this.status === statusCodes.OK) {
       callback(this.responseText);
     }
   };
@@ -67,7 +71,6 @@ const loadTasks = function() {
     const todoLists = document.querySelector('.todo-lists');
     const tasksJSON = JSON.parse(text);
     const tasks = tasksJSON.map(createTasks);
-    console.log(tasks);
     tasks.forEach(task => todoLists.appendChild(task));
   });
 };
