@@ -25,3 +25,5 @@ data structure: [
 --done--[4] add the server
 --done--[5] add a /addTask request to server
 --done--[6] show the entered lists along with title.
+
+[7] Need to keep a input text and button elements to add subTasks
