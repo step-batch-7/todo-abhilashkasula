@@ -51,28 +51,24 @@ const sendHttpGet = (url, callback) => {
   req.send();
 };
 
-const generateSubTasksHtml = function(html, subTask) {
-  const generatedHtml = `<input type="checkbox" name="subTask" class="sub-task" value="${subTask.id}">
-  ${subTask.value}</br>`;
-  return html + generateHtml;
-};
-
-const generateHtml = function(html, task) {
-  const subTasksHtml = task.subTasks.reduce(generateSubTasksHtml, '');
-  const generatedHtml = `<div class="task-container" id="${task.id}">
-    <h3 class=task-title>${task.title}</h3>
-    ${subTasksHtml}
-  </div>`;
-  return html + generatedHtml;
+const createTasks = function(task) {
+  const taskContainer = document.createElement('div');
+  const taskTitle = document.createElement('h3');
+  taskContainer.id = task.id;
+  taskContainer.classList.add('task-container');
+  taskTitle.classList.add('task-title');
+  taskTitle.textContent = task.title;
+  taskContainer.appendChild(taskTitle);
+  return taskContainer;
 };
 
 const loadTasks = function() {
   sendHttpGet('/tasks', text => {
     const todoLists = document.querySelector('.todo-lists');
-    const tasks = JSON.parse(text);
-    const tasksHtml = tasks.reduce(generateHtml, '');
-    console.log(tasksHtml);
-    todoLists.innerHTML = tasksHtml;
+    const tasksJSON = JSON.parse(text);
+    const tasks = tasksJSON.map(createTasks);
+    console.log(tasks);
+    tasks.forEach(task => todoLists.appendChild(task));
   });
 };
 
