@@ -3,6 +3,7 @@ const {app} = require('../lib/handlers');
 
 const statusCodes = {
   OK: 200,
+  REDIRECT: 303,
   NOT_FOUND: 404,
   METHOD_NOT_FOUND: 405
 };
@@ -35,10 +36,18 @@ describe('GET', () => {
         .expect('Content-Length', '2214')
         .expect(/window.onload = main/, done);
     });
+
+    it('should get tasks json for "/tasks" path', done => {
+      request(app.handleRequest.bind(app))
+        .get('/tasks')
+        .expect(statusCodes.OK)
+        .expect('Content-Type', 'application/json')
+        .expect('Content-Length', '2', done);
+    });
   });
 
   describe('Page Not Found', () => {
-    it('should get Not Found page for any bad requested page', (done) => {
+    it('should get Not Found page for any bad requested page', done => {
       request(app.handleRequest.bind(app))
         .get('/badPage')
         .expect(statusCodes.NOT_FOUND)
@@ -48,8 +57,18 @@ describe('GET', () => {
   });
 });
 
+describe('POST', () => {
+  it('should post the title to server', (done) => {
+    request(app.handleRequest.bind(app))
+      .post('/saveTask')
+      .send('title=Complete+todo')
+      .expect(statusCodes.REDIRECT)
+      .expect('Location', '/', done);
+  });
+});
+
 describe('Invalid Method', () => {
-  it('should get method not found for requested invalid method', (done) => {
+  it('should get method not found for requested invalid method', done => {
     request(app.handleRequest.bind(app))
       .put('/badPage')
       .expect(statusCodes.METHOD_NOT_FOUND)
