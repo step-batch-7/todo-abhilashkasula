@@ -22,28 +22,6 @@ const getTitleBox = function() {
   return titleBox;
 };
 
-const getCreateButton = function() {
-  const button = document.createElement('button');
-  button.classList.add('create-task-button');
-  button.textContent = 'Create';
-  return button;
-};
-
-const createForm = function() {
-  const taskAdder = getTaskAdderBox();
-  const form = document.createElement('form');
-  form.setAttribute('action', 'saveTask');
-  form.setAttribute('method', 'POST');
-  form.appendChild(getTitleBox());
-  form.appendChild(getCreateButton());
-  taskAdder.appendChild(form);
-};
-
-const setupTodoAdder = function() {
-  addHeader();
-  createForm();
-};
-
 const sendHttpGet = (url, callback) => {
   const req = new XMLHttpRequest();
   req.onload = function(){
@@ -67,16 +45,45 @@ const postHttpMsg = function(url, callback, message) {
   req.send(message);
 };
 
+const addTask = function() {
+  const inputBox = event.target.previousElementSibling;
+  postHttpMsg('/addTask', generateTasks, `title=${inputBox.value}`);
+  inputBox.value = '';
+};
+
+const getCreateButton = function() {
+  const button = document.createElement('button');
+  button.classList.add('create-task-button');
+  button.textContent = 'Create';
+  button.addEventListener('click', addTask);
+  return button;
+};
+
+const createForm = function() {
+  const taskAdder = getTaskAdderBox();
+  const div = document.createElement('div');
+  div.appendChild(getTitleBox());
+  div.appendChild(getCreateButton());
+  taskAdder.appendChild(div);
+};
+
+const setupTodoAdder = function() {
+  addHeader();
+  createForm();
+};
+
+const generateTasks = function(text) {
+  const todoLists = document.querySelector('.todo-lists');
+  const tasksJSON = JSON.parse(text);
+  const tasks = tasksJSON.map(createTasks);
+  todoLists.innerHTML = '';
+  tasks.forEach(task => todoLists.appendChild(task));
+};
+
 const deleteTask = function(event) {
   const [,, task] = event.path;
   const taskId = task.id;
-  postHttpMsg('/removeTask', (text) => {
-    const todoLists = document.querySelector('.todo-lists');
-    const tasksJSON = JSON.parse(text);
-    const tasks = tasksJSON.map(createTasks);
-    todoLists.innerHTML = '';
-    tasks.forEach(task => todoLists.appendChild(task));
-  }, `id=${taskId}`);
+  postHttpMsg('/removeTask', generateTasks, `id=${taskId}`);
 };
 
 const createImage = function(src, classes, eventListener) {
@@ -100,6 +107,7 @@ const createTaskHeader = function(task) {
 };
 
 const addSubTask = function() {
+
 };
 
 const createSubTasks = function(task) {
@@ -109,7 +117,7 @@ const createSubTasks = function(task) {
   textBox.setAttribute('type', 'text');
   textBox.setAttribute('placeholder', 'Add your subTask Here');
   textBox.classList.add('box', 'sub-task-box');
-  subTasks.classList.add('sub-tasks');
+  subTasks.classList.add('sub-tasks-adder');
   subTasks.appendChild(textBox);
   subTasks.appendChild(img);
   return subTasks;
@@ -127,12 +135,7 @@ const createTasks = function(task) {
 };
 
 const loadTasks = function() {
-  sendHttpGet('/tasks', text => {
-    const todoLists = document.querySelector('.todo-lists');
-    const tasksJSON = JSON.parse(text);
-    const tasks = tasksJSON.map(createTasks);
-    tasks.forEach(task => todoLists.appendChild(task));
-  });
+  sendHttpGet('/tasks', generateTasks);
 };
 
 const main = function() {
