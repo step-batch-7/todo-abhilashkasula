@@ -83,11 +83,11 @@ const createImage = function(src, classes, eventListener) {
   const img = document.createElement('img');
   img.setAttribute('src', src);
   classes.forEach(cssClass => img.classList.add(cssClass));
-  img.addEventListener('click', deleteTask);
+  img.addEventListener('click', eventListener);
   return img;
 };
 
-const getTaskHeader = function(task) {
+const createTaskHeader = function(task) {
   const taskHeader = document.createElement('div');
   const taskTitle = document.createElement('h3');
   const img = createImage('svg/remove.svg', ['svg'], deleteTask);
@@ -99,12 +99,30 @@ const getTaskHeader = function(task) {
   return taskHeader;
 };
 
+const addSubTask = function() {
+};
+
+const createSubTasks = function(task) {
+  const subTasks = document.createElement('div');
+  const textBox = document.createElement('input');
+  const img = createImage('svg/plus.svg', ['svg', 'sub-task-svg'], addSubTask);
+  textBox.setAttribute('type', 'text');
+  textBox.setAttribute('placeholder', 'Add your subTask Here');
+  textBox.classList.add('box', 'sub-task-box');
+  subTasks.classList.add('sub-tasks');
+  subTasks.appendChild(textBox);
+  subTasks.appendChild(img);
+  return subTasks;
+};
+
 const createTasks = function(task) {
   const taskContainer = document.createElement('div');
-  const taskHeader = getTaskHeader(task);
+  const taskHeader = createTaskHeader(task);
+  const subTasks = createSubTasks(task);
   taskContainer.id = task.id;
   taskContainer.classList.add('task-container');
   taskContainer.appendChild(taskHeader);
+  taskContainer.appendChild(subTasks);
   return taskContainer;
 };
 
