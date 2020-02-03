@@ -58,10 +58,10 @@ describe('GET', () => {
 describe('POST', () => {
   it('should post the title to save', (done) => {
     request(app.handleRequest.bind(app))
-      .post('/saveTask')
+      .post('/addTask')
       .send('title=Complete+todo')
-      .expect(statusCodes.REDIRECT)
-      .expect('Location', '/', done);
+      .expect(statusCodes.OK)
+      .expect('Content-Type', 'application/json', done);
   });
 
   it('should post the id to delete', (done) => {
