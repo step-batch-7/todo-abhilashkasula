@@ -4,14 +4,6 @@ const statusCodes = {
 
 const getTaskAdderBox = () => document.querySelector('.task-adder');
 
-const addHeader = function() {
-  const taskAdder = getTaskAdderBox();
-  const header = document.createElement('h3');
-  header.textContent = 'Create A New Task';
-  header.classList.add('task-adder-header');
-  taskAdder.appendChild(header);
-};
-
 const getTextBox = function(classes, attributes) {
   const titleBox = document.createElement('input');
   const keys = Object.keys(attributes);
@@ -58,20 +50,6 @@ const getCreateButton = function() {
   return button;
 };
 
-const createForm = function() {
-  const taskAdder = getTaskAdderBox();
-  const div = document.createElement('div');
-  const attributes = {placeholder: 'Title', required: 'true'};
-  div.appendChild(getTextBox(['title-box', 'box'], attributes));
-  div.appendChild(getCreateButton());
-  taskAdder.appendChild(div);
-};
-
-const setupTodoAdder = function() {
-  addHeader();
-  createForm();
-};
-
 const generateTasks = function(text) {
   const todoLists = document.querySelector('.todo-lists');
   const tasksJSON = JSON.parse(text);
@@ -80,7 +58,7 @@ const generateTasks = function(text) {
   tasks.forEach(task => todoLists.appendChild(task));
 };
 
-const deleteTask = function(event) {
+const deleteTask = function() {
   const [, , task] = event.path;
   const taskId = task.id;
   postHttpMsg('/removeTask', generateTasks, `id=${taskId}`);
@@ -106,7 +84,10 @@ const createTaskHeader = function(task) {
   return taskHeader;
 };
 
-const addSubTask = function() {};
+const addSubTask = function() {
+  const text = event.target.previousElementSibling.value;
+
+};
 
 const generateSubtasks = function(subTasksHtml, subTask) {
   let attribute = '';
@@ -123,7 +104,7 @@ const generateSubtasks = function(subTasksHtml, subTask) {
 const appendChildHtml = function(element, html) {
   const temp = document.createElement('div');
   temp.innerHTML = html;
-  element.appendChild(temp.firstChild);
+  temp.firstChild && element.appendChild(temp.firstChild);
 };
 
 const createSubTasks = function(task) {
@@ -160,7 +141,6 @@ const loadTasks = function() {
 };
 
 const main = function() {
-  setupTodoAdder();
   loadTasks();
 };
 
