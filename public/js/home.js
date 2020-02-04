@@ -25,6 +25,12 @@ const deleteTask = function() {
   sendXHR('POST', '/removeTask', `id=${taskId}`, showTasks);
 };
 
+const removeSubTask = function() {
+  const [, subTask,, task] = event.path;
+  const [subTaskId, taskId] = [subTask, task].map(elem => elem.id);
+  sendXHR('POST', '/removeSubTask', `id=${taskId}&subId=${subTaskId}`, showTasks);
+};
+
 const addSubTask = function() {
   const [target,, parent] = event.path;
   const text = target.previousElementSibling.value;
@@ -46,8 +52,8 @@ const createTaskHeader = function(taskTitle) {
 };
 
 const generateSubtasks = function(subTasksHtml, subTask) {
-  const subTaskElements = `<p>
-    <input type="checkbox" id="${subTask.id}"> ${subTask.task}
+  const subTaskElements = `<p id="${subTask.id}">
+    <input type="checkbox"> ${subTask.task}
     <img src="svg/remove.svg" class="svg svg-remove" onclick="removeSubTask()">
     </br></p>`;
   return subTasksHtml + subTaskElements;

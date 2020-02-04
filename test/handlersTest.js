@@ -56,7 +56,7 @@ describe('GET', () => {
 });
 
 describe('POST', () => {
-  it('should post the title to save', (done) => {
+  it('should post the title to add', (done) => {
     request(app.handleRequest.bind(app))
       .post('/addTask')
       .send('title=Complete+todo')
