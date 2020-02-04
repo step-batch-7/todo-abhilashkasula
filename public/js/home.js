@@ -31,11 +31,11 @@ const removeSubTask = function() {
   sendXHR('POST', '/removeSubTask', `id=${taskId}&subId=${subTaskId}`, showTasks);
 };
 
-const addSubTask = function() {
+const addTask = function() {
   const [target,, parent] = event.path;
   const text = target.previousElementSibling.value;
   const taskId = parent.id;
-  sendXHR('POST', '/addSubTask', `id=${taskId}&task=${text}`, showTasks);
+  sendXHR('POST', '/addTask', `id=${taskId}&task=${text}`, showTasks);
 };
 
 const convertHtmlTextToNode = function(html) {
@@ -69,7 +69,7 @@ const generateSubTasksAdder = function() {
   const placeholder = 'Add your sub task here';
   const html = `<div class="sub-tasks-adder">
   <input type="text" class="sub-task-box box" placeholder="${placeholder}">
-  <img src="svg/plus.svg" class="svg sub-task-svg" onclick="addSubTask()">
+  <img src="svg/plus.svg" class="svg sub-task-svg" onclick="addTask()">
   </div>`;
   return convertHtmlTextToNode(html);
 };
