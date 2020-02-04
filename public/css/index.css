@@ -107,8 +107,6 @@ body {
 .sub-tasks-adder {
   padding: 10px;
   align-self: center;
-  /* border-radius: 5px;
-  border: 1px solid rgba(30, 30, 30, 0.3); */
   display: flex;
 }
 
@@ -126,4 +124,9 @@ body {
 
 .subtasks {
   padding-left: 40px;
+}
+
+.svg-remove {
+  margin-left: 10px;
+  margin-bottom: -3.5px;
 }

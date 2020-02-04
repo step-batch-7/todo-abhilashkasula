@@ -26,8 +26,10 @@ const deleteTask = function() {
 };
 
 const addSubTask = function() {
-  const text = event.target.previousElementSibling.value;
-
+  const [target,, parent] = event.path;
+  const text = target.previousElementSibling.value;
+  const taskId = parent.id;
+  sendXHR('POST', '/addSubTask', `id=${taskId}&task=${text}`, showTasks);
 };
 
 const convertHtmlTextToNode = function(html) {
@@ -39,16 +41,15 @@ const convertHtmlTextToNode = function(html) {
 const createTaskHeader = function(taskTitle) {
   const html = `<div class="task-headline">
     <h3 class="task-title">${taskTitle}</h3>
-    <img src="svg/remove.svg" class="svg" onclick="deleteTask()">
-  </div>`;
+    <img src="svg/remove.svg" class="svg" onclick="deleteTask()"></div>`;
   return convertHtmlTextToNode(html);
 };
 
 const generateSubtasks = function(subTasksHtml, subTask) {
   const subTaskElements = `<p>
-    <input type="checkbox" id="${subTask.id}">
-    ${subTask.task}</br>
-  </p>`;
+    <input type="checkbox" id="${subTask.id}"> ${subTask.task}
+    <img src="svg/remove.svg" class="svg svg-remove" onclick="removeSubTask()">
+    </br></p>`;
   return subTasksHtml + subTaskElements;
 };
 
