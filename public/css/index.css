@@ -53,7 +53,7 @@ body {
   outline: none;
 }
 
-.create-task-button {
+.create-todo-button {
   align-self: center;
   background: linear-gradient(to bottom right, #3381ff, rgb(4, 108, 192));
   border-radius: 4px;
@@ -62,12 +62,12 @@ body {
   color: white;
 }
 
-.create-task-button:hover {
+.create-todo-button:hover {
   cursor: pointer;
   background: linear-gradient(to bottom right, #2d73e2, rgb(4, 83, 148));
 }
 
-.create-task-button:focus {
+.create-todo-button:focus {
   outline: none;
 }
 

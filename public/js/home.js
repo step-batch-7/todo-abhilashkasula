@@ -13,9 +13,9 @@ const sendXHR = (method, url, message, callback) => {
   req.send(message);
 };
 
-const addTask = function() {
+const addTodo = function() {
   const inputBox = event.target.previousElementSibling;
-  sendXHR('POST', '/addTask', `title=${inputBox.value}`, showTasks);
+  sendXHR('POST', '/addTodo', `title=${inputBox.value}`, showTasks);
   inputBox.value = '';
 };
 
