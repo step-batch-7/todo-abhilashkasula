@@ -40,7 +40,7 @@ describe('GET', () => {
         .get('/tasks')
         .expect(statusCodes.OK)
         .expect('Content-Type', 'application/json')
-        .expect('Content-Length', '83', done);
+        .expect('Content-Length', '2', done);
     });
   });
 
