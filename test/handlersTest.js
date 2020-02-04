@@ -58,7 +58,7 @@ describe('GET', () => {
 describe('POST', () => {
   it('should post the title to add', (done) => {
     request(app.handleRequest.bind(app))
-      .post('/addTask')
+      .post('/addTodo')
       .send('title=Complete+todo')
       .expect(statusCodes.OK)
       .expect('Content-Type', 'application/json', done);
@@ -66,7 +66,7 @@ describe('POST', () => {
 
   it('should post the id to delete', (done) => {
     request(app.handleRequest.bind(app))
-      .post('/removeTask')
+      .post('/removeTodo')
       .send('id=1')
       .expect(statusCodes.OK)
       .expect('Content-Type', 'application/json', done);

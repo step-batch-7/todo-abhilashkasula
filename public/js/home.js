@@ -80,16 +80,16 @@ const generateTask = function(task) {
   taskContainer.classList.add('task-container');
   taskContainer.appendChild(createTaskHeader(task.title));
   taskContainer.appendChild(generateSubTasksAdder());
-  taskContainer.appendChild(generateSubTasksContainer(task.subTasks));
+  taskContainer.appendChild(generateSubTasksContainer(task.tasks));
   return taskContainer;
 };
 
 const showTasks = function(text) {
   const todoLists = document.querySelector('.todo-lists');
-  const tasksJSON = JSON.parse(text);
-  const tasks = tasksJSON.map(generateTask);
+  const todoJSON = JSON.parse(text);
+  const todos = todoJSON.map(generateTask);
   todoLists.innerHTML = '';
-  tasks.forEach(task => todoLists.appendChild(task));
+  todos.forEach(todo => todoLists.appendChild(todo));
 };
 
 const loadTasks = function() {
