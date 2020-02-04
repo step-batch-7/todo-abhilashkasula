@@ -2,8 +2,6 @@ const statusCodes = {
   OK: 200
 };
 
-const getTaskAdderBox = () => document.querySelector('.task-adder');
-
 const getTextBox = function(classes, attributes) {
   const titleBox = document.createElement('input');
   const keys = Object.keys(attributes);
@@ -40,14 +38,6 @@ const addTask = function() {
   const inputBox = event.target.previousElementSibling;
   postHttpMsg('/addTask', generateTasks, `title=${inputBox.value}`);
   inputBox.value = '';
-};
-
-const getCreateButton = function() {
-  const button = document.createElement('button');
-  button.classList.add('create-task-button');
-  button.textContent = 'Create';
-  button.addEventListener('click', addTask);
-  return button;
 };
 
 const generateTasks = function(text) {
