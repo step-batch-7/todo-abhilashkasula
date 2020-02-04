@@ -45,15 +45,11 @@ const createTaskHeader = function(taskTitle) {
 };
 
 const generateSubtasks = function(subTasksHtml, subTask) {
-  let attribute = '';
-  let strikeHtml = subTask.task;
-  if (subTask.isDone) {
-    strikeHtml = `<strike>${subTask.task}</strike>`;
-    attribute = 'checked';
-  }
-  const subTaskHtml = `<p><input type="checkbox" id="${subTask.id}"${attribute}>
-    ${strikeHtml}</br></p>`;
-  return subTasksHtml + subTaskHtml;
+  const subTaskElements = `<p>
+    <input type="checkbox" id="${subTask.id}">
+    ${subTask.task}</br>
+  </p>`;
+  return subTasksHtml + subTaskElements;
 };
 
 const generateSubTasksContainer = function(tasks) {

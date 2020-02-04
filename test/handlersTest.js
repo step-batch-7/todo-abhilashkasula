@@ -14,7 +14,7 @@ describe('GET', () => {
       request(app.handleRequest.bind(app))
         .get('/')
         .expect(statusCodes.OK)
-        .expect('Content-Length', '518')
+        .expect('Content-Length', '824')
         .expect('Content-Type', 'text/html')
         .expect(/<title>TODO<\/title>/, done);
     });
@@ -32,7 +32,7 @@ describe('GET', () => {
         .get('/js/home.js')
         .expect(statusCodes.OK)
         .expect('Content-Type', 'application/javascript')
-        .expect(/window.onload = main/, done);
+        .expect(/window.onload = loadTasks/, done);
     });
 
     it('should get tasks json for "/tasks" path', done => {
