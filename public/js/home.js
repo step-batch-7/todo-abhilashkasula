@@ -25,10 +25,10 @@ const deleteTodo = function() {
   sendXHR('POST', '/removeTodo', `id=${taskId}`, showTasks);
 };
 
-const removeSubTask = function() {
+const removeTask = function() {
   const [, subTask,, task] = event.path;
   const [subTaskId, taskId] = [subTask, task].map(elem => elem.id);
-  sendXHR('POST', '/removeSubTask', `id=${taskId}&subId=${subTaskId}`, showTasks);
+  sendXHR('POST', '/removeTask', `id=${taskId}&subId=${subTaskId}`, showTasks);
 };
 
 const addTask = function() {
@@ -54,7 +54,7 @@ const createTaskHeader = function(taskTitle) {
 const generateSubtasks = function(subTasksHtml, subTask) {
   const subTaskElements = `<p id="${subTask.id}">
     <input type="checkbox"> ${subTask.task}
-    <img src="svg/remove.svg" class="svg svg-remove" onclick="removeSubTask()">
+    <img src="svg/remove.svg" class="svg svg-remove" onclick="removeTask()">
     </br></p>`;
   return subTasksHtml + subTaskElements;
 };
