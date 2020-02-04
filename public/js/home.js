@@ -19,10 +19,10 @@ const addTodo = function() {
   inputBox.value = '';
 };
 
-const deleteTask = function() {
+const deleteTodo = function() {
   const [, , task] = event.path;
   const taskId = task.id;
-  sendXHR('POST', '/removeTask', `id=${taskId}`, showTasks);
+  sendXHR('POST', '/removeTodo', `id=${taskId}`, showTasks);
 };
 
 const removeSubTask = function() {
@@ -47,7 +47,7 @@ const convertHtmlTextToNode = function(html) {
 const createTaskHeader = function(taskTitle) {
   const html = `<div class="task-headline">
     <h3 class="task-title">${taskTitle}</h3>
-    <img src="svg/remove.svg" class="svg" onclick="deleteTask()"></div>`;
+    <img src="svg/remove.svg" class="svg" onclick="deleteTodo()"></div>`;
   return convertHtmlTextToNode(html);
 };
 
