@@ -28,7 +28,8 @@ const deleteTodo = function() {
 const removeTask = function() {
   const [, subTask,, task] = event.path;
   const [subTaskId, taskId] = [subTask, task].map(elem => elem.id);
-  sendXHR('POST', '/removeTask', `id=${taskId}&subId=${subTaskId}`, showTasks);
+  const body = `todoId=${taskId}&taskId=${subTaskId}`;
+  sendXHR('POST', '/removeTask', body, showTasks);
 };
 
 const addTask = function() {
@@ -51,9 +52,22 @@ const createTaskHeader = function(taskTitle) {
   return convertHtmlTextToNode(html);
 };
 
+const changeStatus = function(id) {
+  const [, target,, parent] = event.path;
+  const [taskId, todoId] = [target, parent].map(elem => elem.id);
+  const body = `todoId=${todoId}&taskId=${taskId}`;
+  sendXHR('POST', '/changeTaskStatus', body, showTasks);
+};
+
+const addCheckBox = function(isCompleted, name) {
+  const attribute = isCompleted ? 'checked' : '';
+  return `<input type="checkbox" onclick="changeStatus()" ${attribute}>
+  ${name}`;
+};
+
 const generateSubtasks = function(subTasksHtml, subTask) {
   const subTaskElements = `<p id="${subTask.id}">
-    <input type="checkbox"> ${subTask.name}
+    ${addCheckBox(subTask.isCompleted, subTask.name)}
     <img src="svg/remove.svg" class="svg svg-remove" onclick="removeTask()">
     </br></p>`;
   return subTasksHtml + subTaskElements;
