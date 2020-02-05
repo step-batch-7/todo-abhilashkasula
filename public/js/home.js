@@ -61,8 +61,9 @@ const changeStatus = function(id) {
 
 const addCheckBox = function(isCompleted, name) {
   const attribute = isCompleted ? 'checked' : '';
+  const nameWithStyle = isCompleted ? `<strike>${name}</strike>` : name;
   return `<input type="checkbox" onclick="changeStatus()" ${attribute}>
-  ${name}`;
+  ${nameWithStyle}`;
 };
 
 const generateSubtasks = function(subTasksHtml, subTask) {
