@@ -16,28 +16,28 @@ const sendXHR = (method, url, message, callback) => {
 const addTodo = function() {
   const inputBox = event.target.previousElementSibling;
   const text = inputBox.value;
-  text && sendXHR('POST', '/addTodo', `title=${text}`, showTasks);
+  text && sendXHR('POST', '/addTodo', `title=${text}`, showTodos);
   inputBox.value = '';
 };
 
 const deleteTodo = function() {
   const [, , task] = event.path;
   const taskId = task.id;
-  sendXHR('POST', '/removeTodo', `id=${taskId}`, showTasks);
+  sendXHR('POST', '/removeTodo', `id=${taskId}`, showTodos);
 };
 
 const removeTask = function() {
   const [, subTask,, task] = event.path;
   const [subTaskId, taskId] = [subTask, task].map(elem => elem.id);
   const body = `todoId=${taskId}&taskId=${subTaskId}`;
-  sendXHR('POST', '/removeTask', body, showTasks);
+  sendXHR('POST', '/removeTask', body, showTodos);
 };
 
 const addTask = function() {
   const [target,, parent] = event.path;
   const text = target.previousElementSibling.value;
   const taskId = parent.id;
-  text && sendXHR('POST', '/addTask', `id=${taskId}&task=${text}`, showTasks);
+  text && sendXHR('POST', '/addTask', `id=${taskId}&task=${text}`, showTodos);
 };
 
 const convertHtmlTextToNode = function(html) {
@@ -46,7 +46,7 @@ const convertHtmlTextToNode = function(html) {
   return temp.firstChild;
 };
 
-const createTaskHeader = function(taskTitle) {
+const createTodoHeader = function(taskTitle) {
   const html = `<div class="task-headline">
     <h3 class="task-title">${taskTitle}</h3>
     <img src="svg/remove.svg" class="svg" onclick="deleteTodo()"></div>`;
@@ -57,7 +57,7 @@ const changeStatus = function(id) {
   const [, target,, parent] = event.path;
   const [taskId, todoId] = [target, parent].map(elem => elem.id);
   const body = `todoId=${todoId}&taskId=${taskId}`;
-  sendXHR('POST', '/changeTaskStatus', body, showTasks);
+  sendXHR('POST', '/changeTaskStatus', body, showTodos);
 };
 
 const addCheckBox = function(isCompleted, name) {
@@ -67,7 +67,7 @@ const addCheckBox = function(isCompleted, name) {
   ${nameWithStyle}`;
 };
 
-const generateSubtasks = function(subTasksHtml, subTask) {
+const generateTasks = function(subTasksHtml, subTask) {
   const subTaskElements = `<p id="${subTask.id}">
     ${addCheckBox(subTask.isCompleted, subTask.name)}
     <img src="svg/remove.svg" class="svg svg-remove" onclick="removeTask()">
@@ -75,13 +75,13 @@ const generateSubtasks = function(subTasksHtml, subTask) {
   return subTasksHtml + subTaskElements;
 };
 
-const generateSubTasksContainer = function(tasks) {
-  const subTasks = tasks.reduce(generateSubtasks, '');
+const generateTasksContainer = function(tasks) {
+  const subTasks = tasks.reduce(generateTasks, '');
   const html = `<div class="subtasks">${subTasks}</div>`;
   return convertHtmlTextToNode(html);
 };
 
-const generateSubTasksAdder = function() {
+const generateTasksAdder = function() {
   const placeholder = 'Add your sub task here';
   const html = `<div class="sub-tasks-adder">
   <input type="text" class="sub-task-box box" placeholder="${placeholder}">
@@ -90,26 +90,26 @@ const generateSubTasksAdder = function() {
   return convertHtmlTextToNode(html);
 };
 
-const generateTask = function(task) {
+const generateTodo = function(task) {
   const taskContainer = document.createElement('div');
   taskContainer.id = task.id;
   taskContainer.classList.add('task-container');
-  taskContainer.appendChild(createTaskHeader(task.title));
-  taskContainer.appendChild(generateSubTasksAdder());
-  taskContainer.appendChild(generateSubTasksContainer(task.tasks));
+  taskContainer.appendChild(createTodoHeader(task.title));
+  taskContainer.appendChild(generateTasksAdder());
+  taskContainer.appendChild(generateTasksContainer(task.tasks));
   return taskContainer;
 };
 
-const showTasks = function(text) {
+const showTodos = function(text) {
   const todoLists = document.querySelector('.todo-lists');
   const todoJSON = JSON.parse(text);
-  const todos = todoJSON.map(generateTask);
+  const todos = todoJSON.map(generateTodo);
   todoLists.innerHTML = '';
   todos.forEach(todo => todoLists.appendChild(todo));
 };
 
 const loadTasks = function() {
-  sendXHR('GET', '/tasks', '', showTasks);
+  sendXHR('GET', '/tasks', '', showTodos);
 };
 
 window.onload = loadTasks;
