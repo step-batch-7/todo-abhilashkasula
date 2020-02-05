@@ -53,7 +53,7 @@ const createTaskHeader = function(taskTitle) {
 
 const generateSubtasks = function(subTasksHtml, subTask) {
   const subTaskElements = `<p id="${subTask.id}">
-    <input type="checkbox"> ${subTask.task}
+    <input type="checkbox"> ${subTask.name}
     <img src="svg/remove.svg" class="svg svg-remove" onclick="removeTask()">
     </br></p>`;
   return subTasksHtml + subTaskElements;
