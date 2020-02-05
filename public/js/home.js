@@ -15,7 +15,8 @@ const sendXHR = (method, url, message, callback) => {
 
 const addTodo = function() {
   const inputBox = event.target.previousElementSibling;
-  sendXHR('POST', '/addTodo', `title=${inputBox.value}`, showTasks);
+  const text = inputBox.value;
+  text && sendXHR('POST', '/addTodo', `title=${text}`, showTasks);
   inputBox.value = '';
 };
 
@@ -36,7 +37,7 @@ const addTask = function() {
   const [target,, parent] = event.path;
   const text = target.previousElementSibling.value;
   const taskId = parent.id;
-  sendXHR('POST', '/addTask', `id=${taskId}&task=${text}`, showTasks);
+  text && sendXHR('POST', '/addTask', `id=${taskId}&task=${text}`, showTasks);
 };
 
 const convertHtmlTextToNode = function(html) {
