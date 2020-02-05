@@ -28,4 +28,7 @@ data structure: [
 
 --done--[7] Need to keep a input text and button elements to add subTasks
 
-[8] should be able to add a subtask on clicking on plus symbol
+--done--[8] should be able to add a subtask on clicking on plus symbol
+--done--[9] should be able to delete a subtask on clicking on delete symbol
+--done--[10] should be able to toggle check and strike the task upon clicking it.
+--done--[11] should store all the todoLists in a file.
