@@ -30,14 +30,14 @@ const removeTask = function() {
   const [, subTask,, task] = event.path;
   const [subTaskId, taskId] = [subTask, task].map(elem => elem.id);
   const body = `todoId=${taskId}&taskId=${subTaskId}`;
-  sendXHR('POST', '/removeTask', body, showTodos);
+  sendXHR('POST', '/removeTask', body, text => showTasks(taskId, text));
 };
 
 const addTask = function() {
   const [target,, parent] = event.path;
   const text = target.previousElementSibling.value;
   const taskId = parent.id;
-  text && sendXHR('POST', '/addTask', `id=${taskId}&task=${text}`, showTodos);
+  text && sendXHR('POST', '/addTask', `id=${taskId}&task=${text}`, text => showTasks(taskId, text));
 };
 
 const convertHtmlTextToNode = function(html) {
@@ -82,11 +82,19 @@ const toggleTaskAdder = function() {
   taskAdder.style['display'] = display === 'flex' ? 'none' : 'flex';
 };
 
+const showTasks = function(todoId, text) {
+  const container = document.querySelector(`.task-container[id="${todoId}"]`);
+  const subTasks = container.lastChild;
+  const todoJSON = JSON.parse(text);
+  const todo = todoJSON.find(todo => todo.id === +todoId);
+  subTasks.innerHTML = todo.tasks.reduce(generateTasks, '');
+};
+
 const changeStatus = function(id) {
   const [, target,, parent] = event.path;
   const [taskId, todoId] = [target, parent].map(elem => elem.id);
   const body = `todoId=${todoId}&taskId=${taskId}`;
-  sendXHR('POST', '/changeTaskStatus', body, showTodos);
+  sendXHR('POST', '/changeTaskStatus', body, (text) => showTasks(todoId, text));
 };
 
 const addCheckBox = function(isCompleted, name) {
