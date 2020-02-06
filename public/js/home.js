@@ -14,7 +14,7 @@ const sendXHR = (method, url, message, callback) => {
 };
 
 const addTodo = function() {
-  const inputBox = event.target.previousElementSibling;
+  const inputBox = event.target.parentElement.previousElementSibling;
   const text = inputBox.value;
   text && sendXHR('POST', '/addTodo', `title=${text}`, showTodos);
   inputBox.value = '';
@@ -49,7 +49,7 @@ const convertHtmlTextToNode = function(html) {
 const createTodoHeader = function(taskTitle) {
   const html = `<div class="task-headline">
     <h3 class="task-title">${taskTitle}</h3>
-    <img src="svg/remove.svg" class="svg" onclick="deleteTodo()"></div>`;
+    <img src="svg/remove.svg" class="svg svg-remove" onclick="deleteTodo()"></div>`;
   return convertHtmlTextToNode(html);
 };
 

@@ -23,10 +23,13 @@ body {
 .task-adder {
   align-self: center;
   border: 1px solid rgba(30, 30, 30, 0.3);
-  padding: 30px;
+  padding: 5px 13px 5px 13px;
   border-radius: 5px;
   display: flex;
+  box-shadow: 1px 2px 3px 0px rgba(60, 64, 67, 0.302),
+    0 1px 3px 1px rgba(60, 64, 67, 0.149);
   flex-direction: column;
+  margin-bottom: 7px;
 }
 
 .task-adder-header {
@@ -36,17 +39,16 @@ body {
   color: rgba(41, 39, 39, 0.8);
 }
 
-
 .title-box {
-  margin-top: 20px;
   align-self: center;
-  width: 200px;
-  text-align: center; 
+  height: 20px;
+  width: 400px;
+  font-weight: 800;
+  font-size: 14px;
 }
 .box {
   border: 0px;
-  border-bottom: 1px solid rgba(30, 30, 30, 0.3);
-  text-align: center;
+  color: #000000bf;
 }
 
 .box:focus {
@@ -78,7 +80,7 @@ body {
 
 .task-title {
   margin: 0px;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .task-container {
@@ -94,13 +96,13 @@ body {
 .task-headline {
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid rgba(30, 30, 30, 0.3);
+  /* border-bottom: 1px solid rgba(30, 30, 30, 0.3); */
   padding-bottom: 10px;
   margin-bottom: 10px;
+  margin-left: 5px;
 }
 
 .svg {
-  height: 19px;
   cursor: pointer;
 }
 
@@ -127,6 +129,21 @@ body {
 }
 
 .svg-remove {
+  height: 19px;
   margin-left: 6px;
   margin-bottom: -4px;
+}
+
+.create-svg {
+  width: 15px;
+  margin-bottom: -2px;
+}
+
+.image {
+  border-radius: 50%;
+}
+
+.image:hover {
+  background-color: #d6d6d6;
+  box-shadow: inset 0px 1px 4px 0px rgba(138, 138, 138, 0.5);
 }

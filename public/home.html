@@ -12,14 +12,16 @@
     <h1 class="title">TODO</h1>
     <div class="container">
       <div class="task-adder">
-        <h3 class="task-adder-header">Create A New Todo</h3>
         <div>
           <input
             type="text"
             placeholder="Title"
             required="true"
             class="title-box box"
-          /><button class="create-todo-button" onclick="addTodo(event)">Create</button>
+          />
+          <span class="image">
+            <img src="svg/create.svg" onclick="addTodo(event)" class="create-svg svg">
+          </span>
         </div>
       </div>
       <div class="todo-lists"></div>
