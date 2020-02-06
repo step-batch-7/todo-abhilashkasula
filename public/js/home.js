@@ -46,14 +46,40 @@ const convertHtmlTextToNode = function(html) {
   return temp.firstChild;
 };
 
+const rotate = function() {
+  const target = event.target;
+  if(target.classList.contains('rotated')) {
+    target.classList.remove('rotated', 'rotate');
+    return target.classList.add('rotate-back', 'initial');
+  }
+  target.classList.remove('initial', 'rotate-back'); 
+  target.classList.add('rotate', 'rotated');
+};
+
+const toggleTasks = function() {
+  rotate();
+  const [,, parent] = event.path;
+  const subTasks = parent.nextElementSibling.nextElementSibling;
+  const display = subTasks.style['display'];
+  subTasks.style['display'] = display === 'flex' ? 'none' : 'flex';
+};
+
 const createTodoHeader = function(taskTitle) {
   const classes = 'svg svg-remove';
   const html = `<div class="task-headline">
     <h3 class="task-title">${taskTitle}</h3>
-    <div><img src="svg/plus.svg" class="svg plus" onclick="toggleTaskAdder()">
+    <div><img src="svg/arrow.svg" class="svg arrow" onclick="toggleTasks()">
+    <img src="svg/plus.svg" class="svg plus" onclick="toggleTaskAdder()">
     <img src="svg/remove.svg" class="${classes}" onclick="deleteTodo()"></div>
     </div>`;
   return convertHtmlTextToNode(html);
+};
+
+const toggleTaskAdder = function() {
+  const [,, sibling] = event.path;
+  const taskAdder = sibling.nextElementSibling;
+  const display = taskAdder.style['display'];
+  taskAdder.style['display'] = display === 'flex' ? 'none' : 'flex';
 };
 
 const changeStatus = function(id) {
@@ -73,7 +99,7 @@ const addCheckBox = function(isCompleted, name) {
 const generateTasks = function(subTasksHtml, subTask) {
   const subTaskElements = `<p id="${subTask.id}">
     ${addCheckBox(subTask.isCompleted, subTask.name)}
-    <img src="svg/remove.svg" class="svg svg-task-remove" onclick="removeTask()">
+    <img src="svg/remove.svg" class="svg svg-task-remove"onclick="removeTask()">
     </br></p>`;
   return subTasksHtml + subTaskElements;
 };
