@@ -47,9 +47,12 @@ const convertHtmlTextToNode = function(html) {
 };
 
 const createTodoHeader = function(taskTitle) {
+  const classes = 'svg svg-remove';
   const html = `<div class="task-headline">
     <h3 class="task-title">${taskTitle}</h3>
-    <img src="svg/remove.svg" class="svg svg-remove" onclick="deleteTodo()"></div>`;
+    <div><img src="svg/plus.svg" class="svg plus" onclick="toggleTaskAdder()">
+    <img src="svg/remove.svg" class="${classes}" onclick="deleteTodo()"></div>
+    </div>`;
   return convertHtmlTextToNode(html);
 };
 
@@ -70,7 +73,7 @@ const addCheckBox = function(isCompleted, name) {
 const generateTasks = function(subTasksHtml, subTask) {
   const subTaskElements = `<p id="${subTask.id}">
     ${addCheckBox(subTask.isCompleted, subTask.name)}
-    <img src="svg/remove.svg" class="svg svg-remove" onclick="removeTask()">
+    <img src="svg/remove.svg" class="svg svg-task-remove" onclick="removeTask()">
     </br></p>`;
   return subTasksHtml + subTaskElements;
 };

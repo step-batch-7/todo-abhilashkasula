@@ -96,9 +96,6 @@ body {
 .task-headline {
   display: flex;
   justify-content: space-between;
-  /* border-bottom: 1px solid rgba(30, 30, 30, 0.3); */
-  padding-bottom: 10px;
-  margin-bottom: 10px;
   margin-left: 5px;
 }
 
@@ -109,7 +106,7 @@ body {
 .sub-tasks-adder {
   padding: 10px;
   align-self: center;
-  display: flex;
+  display: none;
 }
 
 .sub-task-svg {
@@ -131,12 +128,23 @@ body {
 .svg-remove {
   height: 19px;
   margin-left: 6px;
-  margin-bottom: -4px;
+  margin-top: -1px;
+}
+
+.svg-task-remove {
+  height: 19px;
+  margin-left: 6px;
+  margin-bottom: -3px;
 }
 
 .create-svg {
   width: 15px;
   margin-bottom: -2px;
+}
+
+.plus {
+  margin-bottom: 1px;
+  height: 16px;
 }
 
 .image {
