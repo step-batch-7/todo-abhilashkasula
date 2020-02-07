@@ -66,11 +66,19 @@ const toggleTasks = function(id) {
   tasks.style['display'] = display === 'flex' ? 'none' : 'flex';
 };
 
+const selectTitle = function() {
+  const [, parent] = event.path;
+  const title = parent.previousElementSibling.firstChild;
+  title.focus();
+};
+
 const createTodoHeader = function(title, id) {
   const classes = 'svg svg-remove';
   const html = `<div class="task-headline">
-    <div><input class="box task-title" type="text" onfocusout="changeTitle(${id})" value="${title}"> </div>
+    <div><input class="box task-title"
+    type="text" onfocusout="changeTitle(${id})" value="${title}"> </div>
     <div><img src="svg/arrow.svg" class="svg arrow"onclick="toggleTasks(${id})">
+    <img src="svg/edit.svg" class="svg svg-edit" onclick="selectTitle()">
     <img src="svg/plus.svg" class="svg plus" onclick="toggleTaskAdder()">
     <img src="svg/remove.svg" class="${classes}" onclick="deleteTodo()"></div>
     </div>`;
@@ -93,26 +101,39 @@ const showTasks = function(todoId, text) {
 };
 
 const changeTitle = function(id) {
-  const text = event.target.value;
+  const textBox = event.target;
   const render = function(text) { 
     const todo = JSON.parse(text);
-    event.target.value = todo.title;
+    textBox.value = todo.title;
   };
-  sendXHR('POST', '/changeTitle', `id=${id}&title=${text}`, render);
+  sendXHR('POST', '/changeTitle', `id=${id}&title=${textBox.value}`, render);
 };
 
-const changeStatus = function(id) {
+const changeStatus = function() {
   const [, target,, parent] = event.path;
   const [taskId, todoId] = [target, parent].map(elem => elem.id);
   const body = `todoId=${todoId}&taskId=${taskId}`;
   sendXHR('POST', '/changeTaskStatus', body, (text) => showTasks(todoId, text));
 };
 
-const generateTasks = function(subTasksHtml, subTask) {
-  const attribute = subTask.isCompleted ? 'checked' : '';
-  const cssClass = subTask.isCompleted ? 'checked' : '';
-  const subTaskElements = `<p id="${subTask.id}" class="${cssClass}">
-    <input type="checkbox" onclick="changeStatus()"${attribute}> ${subTask.name}
+const changeTask = function(id) {
+  const [target,,, parent] = event.path;
+  const todoId = parent.id;
+  const render = function(text) { 
+    const task = JSON.parse(text).tasks.find(task => task.id === +id);
+    target.innerText = task.name;
+  };
+  const body = `todoId=${todoId}&taskId=${id}&task=${target.innerText}`;
+  sendXHR('POST', '/changeTask', body, render);
+};
+
+const generateTasks = function(subTasksHtml, {id, name, isCompleted}) {
+  const attribute = isCompleted ? 'checked' : '';
+  const cssClass = isCompleted ? 'checked' : '';
+  const subTaskElements = `<p id="${id}" class="${cssClass}">
+    <input type="checkbox" onclick="changeStatus()"${attribute}>
+    <span contenteditable="true" class="edit" onfocusout="changeTask(${id})">
+    ${name}</span>
     <img src="svg/remove.svg" class="svg svg-task-remove"onclick="removeTask()">
     </br></p>`;
   return subTasksHtml + subTaskElements;

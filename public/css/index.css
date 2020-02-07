@@ -219,10 +219,15 @@ p {
   margin-top: 15px;
 }
 
-.edit {
+.svg-edit {
+  margin-bottom: -2px;
   height: 19px;
 }
 
 .checked {
   color: #adabab
+}
+
+.edit:focus {
+  outline: none;
 }
