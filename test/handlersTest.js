@@ -50,7 +50,7 @@ describe('GET', () => {
         .get('/tasks')
         .expect(statusCodes.OK)
         .expect('Content-Type', 'application/json')
-        .expect('Content-Length', '2', done);
+        .expect('Content-Length', '184', done);
     });
   });
 
@@ -85,7 +85,15 @@ describe('POST', () => {
   it('should post the id to delete', (done) => {
     request(app.handleRequest.bind(app))
       .post('/removeTodo')
-      .send('id=1')
+      .send('id=2')
+      .expect(statusCodes.OK)
+      .expect('Content-Type', 'application/json', done);
+  });
+
+  it('should post the todo id and task to add new task to a todo', (done) => {
+    request(app.handleRequest.bind(app))
+      .post('/addTask')
+      .send('id=1&task=Buy+clothes')
       .expect(statusCodes.OK)
       .expect('Content-Type', 'application/json', done);
   });
