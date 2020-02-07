@@ -85,7 +85,10 @@ body {
 
 .task-title {
   margin: 0px;
-  font-weight: 600;
+  font-weight: 800;
+  font-size: 18px;
+  color: #545454;
+  width: 500px;
 }
 
 .task-container {
@@ -138,13 +141,13 @@ body {
 .svg-remove {
   height: 19px;
   margin-left: 6px;
-  margin-top: -1px;
+  margin-bottom: -2px;
 }
 
 .svg-task-remove {
   height: 19px;
   margin-left: 6px;
-  margin-bottom: -3px;
+  margin-bottom: -4px;
 }
 
 .create-svg {
@@ -153,7 +156,7 @@ body {
 }
 
 .plus {
-  margin-bottom: 1px;
+  margin-top: 3px;
   height: 16px;
 }
 
@@ -173,7 +176,7 @@ body {
 .arrow {
   height: 14px;
   margin-right: 8px;
-  margin-bottom: 1px;
+  margin-bottom: -1px;
 }
 
 .initial {
@@ -214,4 +217,12 @@ body {
 p {
   margin: 0px;
   margin-top: 15px;
+}
+
+.edit {
+  height: 19px;
+}
+
+.checked {
+  color: #adabab
 }

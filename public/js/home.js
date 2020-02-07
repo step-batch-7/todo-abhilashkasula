@@ -69,7 +69,7 @@ const toggleTasks = function(id) {
 const createTodoHeader = function(title, id) {
   const classes = 'svg svg-remove';
   const html = `<div class="task-headline">
-    <h3 class="task-title">${title}</h3>
+    <div><input class="box task-title" type="text" onfocusout="changeTitle(${id})" value="${title}"> </div>
     <div><img src="svg/arrow.svg" class="svg arrow"onclick="toggleTasks(${id})">
     <img src="svg/plus.svg" class="svg plus" onclick="toggleTaskAdder()">
     <img src="svg/remove.svg" class="${classes}" onclick="deleteTodo()"></div>
@@ -92,6 +92,15 @@ const showTasks = function(todoId, text) {
   subTasks.innerHTML = todo.tasks.reduce(generateTasks, '');
 };
 
+const changeTitle = function(id) {
+  const text = event.target.value;
+  const render = function(text) { 
+    const todo = JSON.parse(text);
+    event.target.value = todo.title;
+  };
+  sendXHR('POST', '/changeTitle', `id=${id}&title=${text}`, render);
+};
+
 const changeStatus = function(id) {
   const [, target,, parent] = event.path;
   const [taskId, todoId] = [target, parent].map(elem => elem.id);
@@ -99,16 +108,11 @@ const changeStatus = function(id) {
   sendXHR('POST', '/changeTaskStatus', body, (text) => showTasks(todoId, text));
 };
 
-const addCheckBox = function(isCompleted, name) {
-  const attribute = isCompleted ? 'checked' : '';
-  const nameWithStyle = isCompleted ? `<strike>${name}</strike>` : name;
-  return `<input type="checkbox" onclick="changeStatus()" ${attribute}>
-  ${nameWithStyle}`;
-};
-
 const generateTasks = function(subTasksHtml, subTask) {
-  const subTaskElements = `<p id="${subTask.id}">
-    ${addCheckBox(subTask.isCompleted, subTask.name)}
+  const attribute = subTask.isCompleted ? 'checked' : '';
+  const cssClass = subTask.isCompleted ? 'checked' : '';
+  const subTaskElements = `<p id="${subTask.id}" class="${cssClass}">
+    <input type="checkbox" onclick="changeStatus()"${attribute}> ${subTask.name}
     <img src="svg/remove.svg" class="svg svg-task-remove"onclick="removeTask()">
     </br></p>`;
   return subTasksHtml + subTaskElements;
