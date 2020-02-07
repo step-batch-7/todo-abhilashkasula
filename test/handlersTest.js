@@ -105,6 +105,14 @@ describe('POST', () => {
       .expect(statusCodes.OK)
       .expect('Content-Type', 'application/json', done);
   });
+
+  it('should post todo id and task id to change a task status', (done) => {
+    request(app.handleRequest.bind(app))
+      .post('/changeTaskStatus')
+      .send('taskId=2&todoId=1')
+      .expect(statusCodes.OK)
+      .expect('Content-Type', 'application/json', done);
+  });
 });
 
 describe('Invalid Method', () => {
