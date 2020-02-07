@@ -97,6 +97,14 @@ describe('POST', () => {
       .expect(statusCodes.OK)
       .expect('Content-Type', 'application/json', done);
   });
+
+  it('should post todo id and task id to delete a task from a todo', (done) => {
+    request(app.handleRequest.bind(app))
+      .post('/removeTask')
+      .send('taskId=1&todoId=1')
+      .expect(statusCodes.OK)
+      .expect('Content-Type', 'application/json', done);
+  });
 });
 
 describe('Invalid Method', () => {
