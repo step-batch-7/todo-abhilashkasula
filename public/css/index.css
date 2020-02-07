@@ -123,8 +123,16 @@ body {
 
 .subtasks {
   padding-left: 40px;
-  display: none;
   flex-direction: column;
+}
+
+.subtasks-hidden {
+  display: none;
+}
+
+.subtasks-show {
+  display: block;
+  animation: slide 0.6s;
 }
 
 .svg-remove {
@@ -140,8 +148,8 @@ body {
 }
 
 .create-svg {
-  width: 15px;
-  margin-bottom: -2px;
+  width: 20px;
+  margin-left: 4px;
 }
 
 .plus {
@@ -150,12 +158,16 @@ body {
 }
 
 .image {
-  border-radius: 50%;
+  border-radius: 12%;
+  display: flex;
+  width: 23px;
+  height: 23px;
+  margin-top: 1px;
 }
 
 .image:hover {
-  background-color: #d6d6d6;
-  box-shadow: inset 0px 1px 4px 0px rgba(138, 138, 138, 0.5);
+  background-color: #ececec;
+  box-shadow: inset 0px 1px 4px 0px rgb(183, 181, 181);
 }
 
 .arrow {
@@ -197,4 +209,9 @@ body {
   100% {
     transform: rotate(180deg);
   }
+}
+
+p {
+  margin: 0px;
+  margin-top: 15px;
 }

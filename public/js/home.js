@@ -37,7 +37,8 @@ const addTask = function() {
   const [target,, parent] = event.path;
   const text = target.previousElementSibling.value;
   const taskId = parent.id;
-  text && sendXHR('POST', '/addTask', `id=${taskId}&task=${text}`, text => showTasks(taskId, text));
+  const body = `id=${taskId}&task=${text}`;
+  text && sendXHR('POST', '/addTask', body, text => showTasks(taskId, text));
 };
 
 const convertHtmlTextToNode = function(html) {
@@ -114,7 +115,7 @@ const generateTasks = function(subTasksHtml, subTask) {
 
 const generateTasksContainer = function(tasks) {
   const subTasks = tasks.reduce(generateTasks, '');
-  const html = `<div class="subtasks">${subTasks}</div>`;
+  const html = `<div class="subtasks subtasks-hidden">${subTasks}</div>`;
   return convertHtmlTextToNode(html);
 };
 
