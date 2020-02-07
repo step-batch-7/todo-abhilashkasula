@@ -8,11 +8,11 @@
     "test": "test"
   },
   "scripts": {
-    "test": "mocha",
+    "test": "export DATA_STORE='test/resource/todoLists.json'; mocha",
     "lint": "eslint *.js lib/*.js test/*.js public/js/*.js",
     "cover": "nyc npm test",
     "alltests": "npm run cover && npm run lint",
-    "start": "node server.js"
+    "start": "export DATA_STORE='data/todoLists.json'; node server.js"
   },
   "repository": {
     "type": "git",
