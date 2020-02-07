@@ -22,7 +22,6 @@ const addTodo = function() {
 
 const deleteTodo = function() {
   const [,,, task] = event.path;
-  console.log(task);
   const taskId = task.id;
   sendXHR('POST', '/removeTodo', `id=${taskId}`, showTodos);
 };

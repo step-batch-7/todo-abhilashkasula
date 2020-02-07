@@ -1,4 +1,6 @@
 const request = require('supertest');
+const sinon = require('sinon');
+const fs = require('fs');
 const {app} = require('../lib/handlers');
 
 const statusCodes = {
@@ -9,12 +11,20 @@ const statusCodes = {
 };
 
 describe('GET', () => {
+  beforeEach(() => {
+    sinon.replace(fs, 'writeFileSync', () => {});
+  });
+
+  afterEach(() => {
+    sinon.restore();
+  });
+
   describe('Home Page', () => {
     it('should get the home.html for "/" path', done => {
       request(app.handleRequest.bind(app))
         .get('/')
         .expect(statusCodes.OK)
-        .expect('Content-Length', '757')
+        .expect('Content-Length', '780')
         .expect('Content-Type', 'text/html')
         .expect(/<title>TODO<\/title>/, done);
     });
@@ -56,6 +66,14 @@ describe('GET', () => {
 });
 
 describe('POST', () => {
+  beforeEach(() => {
+    sinon.replace(fs, 'writeFileSync', () => {});
+  });
+
+  afterEach(() => {
+    sinon.restore();
+  });
+
   it('should post the title to add', (done) => {
     request(app.handleRequest.bind(app))
       .post('/addTodo')
