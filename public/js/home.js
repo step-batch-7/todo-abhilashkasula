@@ -21,7 +21,8 @@ const addTodo = function() {
 };
 
 const deleteTodo = function() {
-  const [, , task] = event.path;
+  const [,,, task] = event.path;
+  console.log(task);
   const taskId = task.id;
   sendXHR('POST', '/removeTodo', `id=${taskId}`, showTodos);
 };
@@ -33,12 +34,14 @@ const removeTask = function() {
   sendXHR('POST', '/removeTask', body, text => showTasks(taskId, text));
 };
 
-const addTask = function() {
-  const [target,, parent] = event.path;
-  const text = target.previousElementSibling.value;
-  const taskId = parent.id;
-  const body = `id=${taskId}&task=${text}`;
-  text && sendXHR('POST', '/addTask', body, text => showTasks(taskId, text));
+const addTask = function(id) {
+  const textBox = event.target.previousElementSibling;
+  const text = textBox.value;
+  const body = `id=${id}&task=${text}`;
+  text && sendXHR('POST', '/addTask', body, text => showTasks(id, text));
+  textBox.value = '';
+  const toggler = document.querySelector(`img[onclick="toggleTasks(${id})"]`);
+  toggler.classList.contains('initial') && toggler.click(); 
 };
 
 const convertHtmlTextToNode = function(html) {
@@ -57,19 +60,18 @@ const rotate = function() {
   target.classList.add('rotate', 'rotated');
 };
 
-const toggleTasks = function() {
+const toggleTasks = function(id) {
   rotate();
-  const [,, parent] = event.path;
-  const subTasks = parent.nextElementSibling.nextElementSibling;
-  const display = subTasks.style['display'];
-  subTasks.style['display'] = display === 'flex' ? 'none' : 'flex';
+  const tasks = document.querySelector(`.task-container[id="${id}"]`).lastChild;
+  const display = tasks.style['display'];
+  tasks.style['display'] = display === 'flex' ? 'none' : 'flex';
 };
 
-const createTodoHeader = function(taskTitle) {
+const createTodoHeader = function(title, id) {
   const classes = 'svg svg-remove';
   const html = `<div class="task-headline">
-    <h3 class="task-title">${taskTitle}</h3>
-    <div><img src="svg/arrow.svg" class="svg arrow" onclick="toggleTasks()">
+    <h3 class="task-title">${title}</h3>
+    <div><img src="svg/arrow.svg" class="svg arrow"onclick="toggleTasks(${id})">
     <img src="svg/plus.svg" class="svg plus" onclick="toggleTaskAdder()">
     <img src="svg/remove.svg" class="${classes}" onclick="deleteTodo()"></div>
     </div>`;
@@ -115,26 +117,26 @@ const generateTasks = function(subTasksHtml, subTask) {
 
 const generateTasksContainer = function(tasks) {
   const subTasks = tasks.reduce(generateTasks, '');
-  const html = `<div class="subtasks subtasks-hidden">${subTasks}</div>`;
+  const html = `<div class="subtasks">${subTasks}</div>`;
   return convertHtmlTextToNode(html);
 };
 
-const generateTasksAdder = function() {
+const generateTasksAdder = function(id) {
   const placeholder = 'Add your sub task here';
   const html = `<div class="sub-tasks-adder">
   <input type="text" class="sub-task-box box" placeholder="${placeholder}">
-  <img src="svg/plus.svg" class="svg sub-task-svg" onclick="addTask()">
+  <img src="svg/plus.svg" class="svg sub-task-svg" onclick="addTask(${id})">
   </div>`;
   return convertHtmlTextToNode(html);
 };
 
-const generateTodo = function(task) {
+const generateTodo = function(todo) {
   const taskContainer = document.createElement('div');
-  taskContainer.id = task.id;
+  taskContainer.id = todo.id;
   taskContainer.classList.add('task-container');
-  taskContainer.appendChild(createTodoHeader(task.title));
-  taskContainer.appendChild(generateTasksAdder());
-  taskContainer.appendChild(generateTasksContainer(task.tasks));
+  taskContainer.appendChild(createTodoHeader(todo.title, todo.id));
+  taskContainer.appendChild(generateTasksAdder(todo.id));
+  taskContainer.appendChild(generateTasksContainer(todo.tasks));
   return taskContainer;
 };
 
