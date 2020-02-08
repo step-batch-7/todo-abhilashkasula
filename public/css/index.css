@@ -16,7 +16,7 @@ body {
 
 .container {
   margin: 25px;
-  height: 560px;
+  height: 535px;
   background-color: white;
   border-radius: 5px;
   border: 1px solid rgba(30, 30, 30, 0.3);
@@ -166,6 +166,10 @@ body {
   margin-left: 5px;
 }
 
+.sub-task-svg:hover {
+  cursor: pointer;
+}
+
 .sub-task-box {
   width: 150px;
   border-bottom: 1px solid rgba(30, 30, 30, 0.3);
@@ -176,7 +180,7 @@ body {
 .subtasks {
   word-wrap: break-word;
   hyphens: auto;
-  padding: 0px 17px 0px 27px;
+  padding: 0px 4px 0px 27px;
   flex-direction: column;
 }
 
@@ -213,6 +217,11 @@ body {
 p {
   margin: 0px;
   margin-top: 10px;
+}
+
+.edit {
+  width: 118px;
+  font-size: 15px;
 }
 
 .svg-edit {

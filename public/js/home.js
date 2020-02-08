@@ -84,17 +84,17 @@ const changeStatus = function() {
 const changeTask = function(id) {
   const [target,,, parent] = event.path;
   const todoId = parent.id;
-  const body = `todoId=${todoId}&taskId=${id}&task=${target.innerText}`;
+  const body = `todoId=${todoId}&taskId=${id}&task=${target.value}`;
   sendXHR('POST', '/changeTask', body, showTodos);
 };
 
 const generateTasks = function(subTasksHtml, {id, name, isCompleted}) {
   const attribute = isCompleted ? 'checked' : '';
   const cssClass = isCompleted ? 'checked' : '';
-  const subTaskElements = `<p id="${id}" class="${cssClass}">
+  const subTaskElements = `<p id="${id}">
     <input type="checkbox" onclick="changeStatus()"${attribute}>
-    <span contenteditable="true" class="edit" onfocusout="changeTask(${id})">
-    ${name}</span>
+    <input type="text" class="edit box ${cssClass} value=" ${name}"
+    onfocusout="changeTask(${id})">
     <img src="svg/remove.svg" class="svg svg-task-remove"onclick="removeTask()">
     </br></p>`;
   return subTasksHtml + subTaskElements;
@@ -110,7 +110,7 @@ const generateTasksAdder = function(id) {
   const placeholder = 'Add your sub task here';
   const html = `<div class="sub-tasks-adder">
   <input type="text" class="sub-task-box box" placeholder="${placeholder}">
-  <img src="svg/plus.svg" class="svg sub-task-svg" onclick="addTask(${id})">
+  <img src="svg/plus.svg" class="sub-task-svg" onclick="addTask(${id})">
   </div>`;
   return convertHtmlTextToNode(html);
 };
