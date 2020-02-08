@@ -106,6 +106,24 @@ body {
   margin-right: 35px;
 }
 
+.task-container:hover .svg{
+  animation: show 0.4s;
+  visibility: visible;
+}
+
+.task-container .svg {
+  visibility: hidden;
+}
+
+@keyframes show {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 .header {
   display: flex;
   justify-content: center;
