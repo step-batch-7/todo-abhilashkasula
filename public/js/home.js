@@ -6,7 +6,7 @@ const sendXHR = (method, url, message, callback) => {
   const req = new XMLHttpRequest();
   req.onload = function() {
     if (this.status === statusCodes.OK) {
-      callback(this.responseText);
+      callback(JSON.parse(this.responseText));
     }
   };
   req.open(method, url);
@@ -20,6 +20,12 @@ const addTodo = function() {
   inputBox.value = '';
 };
 
+const updateTodo = function(todoJSON) {
+  const todo = document.querySelector(`.task-container[id="${todoJSON.id}"]`);
+  todo.innerHTML = '';
+  addChildren(todo, todoJSON);
+};
+
 const deleteTodo = function() {
   const [,,, task] = event.path;
   const taskId = task.id;
@@ -30,14 +36,14 @@ const removeTask = function() {
   const [, subTask,, task] = event.path;
   const [subTaskId, taskId] = [subTask, task].map(elem => elem.id);
   const body = `todoId=${taskId}&taskId=${subTaskId}`;
-  sendXHR('POST', '/removeTask', body, showTodos);
+  sendXHR('POST', '/removeTask', body, updateTodo);
 };
 
 const addTask = function(id) {
   const textBox = event.target.previousElementSibling;
   const text = textBox.value;
   const body = `id=${id}&task=${text}`;
-  text && sendXHR('POST', '/addTask', body, showTodos);
+  text && sendXHR('POST', '/addTask', body, updateTodo);
   textBox.value = ''; 
 };
 
@@ -71,29 +77,28 @@ const createTodoHeader = function(title, id) {
 
 const changeTitle = function(id) {
   const text = event.target.value;
-  sendXHR('POST', '/changeTitle', `id=${id}&title=${text}`, showTodos);
+  sendXHR('POST', '/changeTitle', `id=${id}&title=${text}`, updateTodo);
 };
 
 const changeStatus = function() {
   const [, target,, parent] = event.path;
   const [taskId, todoId] = [target, parent].map(elem => elem.id);
   const body = `todoId=${todoId}&taskId=${taskId}`;
-  sendXHR('POST', '/changeTaskStatus', body, showTodos);
+  sendXHR('POST', '/changeTaskStatus', body, updateTodo);
 };
 
 const changeTask = function(id) {
   const [target,,, parent] = event.path;
   const todoId = parent.id;
   const body = `todoId=${todoId}&taskId=${id}&task=${target.value}`;
-  sendXHR('POST', '/changeTask', body, showTodos);
+  sendXHR('POST', '/changeTask', body, updateTodo);
 };
 
 const generateTasks = function(subTasksHtml, {id, name, isCompleted}) {
   const attribute = isCompleted ? 'checked' : '';
-  const cssClass = isCompleted ? 'checked' : '';
   const subTaskElements = `<p id="${id}">
     <input type="checkbox" onclick="changeStatus()"${attribute}>
-    <input type="text" class="edit box ${cssClass} value=" ${name}"
+    <input type="text" class="edit box ${attribute}" value=" ${name}"
     onfocusout="changeTask(${id})">
     <img src="svg/remove.svg" class="svg svg-task-remove"onclick="removeTask()">
     </br></p>`;
@@ -115,22 +120,25 @@ const generateTasksAdder = function(id) {
   return convertHtmlTextToNode(html);
 };
 
+const addChildren = function(todo, {id, title, tasks}) {
+  todo.appendChild(createTodoHeader(title, id));
+  todo.appendChild(generateTasksAdder(id));
+  todo.appendChild(generateTasksContainer(tasks));
+};
+
 const generateTodo = function(todo) {
   const taskContainer = document.createElement('div');
   taskContainer.id = todo.id;
   taskContainer.classList.add('task-container');
-  taskContainer.appendChild(createTodoHeader(todo.title, todo.id));
-  taskContainer.appendChild(generateTasksAdder(todo.id));
-  taskContainer.appendChild(generateTasksContainer(todo.tasks));
+  addChildren(taskContainer, todo);
   return taskContainer;
 };
 
-const showTodos = function(text) {
-  const todoLists = document.querySelector('.todo-lists');
-  const todoJSON = JSON.parse(text);
-  const todos = todoJSON.map(generateTodo);
-  todoLists.innerHTML = '';
-  todos.forEach(todo => todoLists.appendChild(todo));
+const showTodos = function(todoLists) {
+  const todoListsContainer = document.querySelector('.todo-lists');
+  const todos = todoLists.map(generateTodo);
+  todoListsContainer.innerHTML = '';
+  todos.forEach(todo => todoListsContainer.appendChild(todo));
 };
 
 const loadTasks = function() {
