@@ -91,6 +91,7 @@ body {
   font-size: 18px;
   color: #545454;
   width: 148px;
+  margin-top: -2px;
 }
 
 .task-container {
@@ -103,6 +104,23 @@ body {
   display: flex;
   flex-direction: column;
   margin-right: 35px;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+}
+
+.searchBox {
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  right: 57px;
+  border: 1px solid rgba(30, 30, 30, 0.3);
+  background: white;
+  padding: 5px;
+  border-radius: 5px;
+  width: 182px;
 }
 
 .task-headline {
@@ -139,6 +157,7 @@ body {
 
 .subtasks {
   word-wrap: break-word;
+  hyphens: auto;
   padding: 0px 17px 0px 27px;
   flex-direction: column;
 }
@@ -160,6 +179,19 @@ body {
   margin-left: 4px;
 }
 
+.image {
+  border-radius: 12%;
+  display: flex;
+  width: 23px;
+  height: 23px;
+  margin-top: 1px;
+}
+
+.image:hover {
+  background-color: #ececec;
+  box-shadow: inset 0px 1px 4px 0px rgb(183, 181, 181);
+}
+
 p {
   margin: 0px;
   margin-top: 10px;
@@ -176,4 +208,8 @@ p {
 
 .edit:focus {
   outline: none;
+}
+
+.search {
+  height: 19px;
 }

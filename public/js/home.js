@@ -41,6 +41,11 @@ const addTask = function(id) {
   textBox.value = ''; 
 };
 
+const search = function() {
+  const text = document.querySelector('#search').value;
+  sendXHR('POST', '/search', `text=${text}`, showTodos);
+};
+
 const convertHtmlTextToNode = function(html) {
   const temp = document.createElement('div');
   temp.innerHTML = html;

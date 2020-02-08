@@ -11,12 +11,26 @@
   <body>
     <h1 class="title">TODO</h1>
     <div class="container">
-      <div class="task-adder">
-        <div style="display: flex;">
-          <input type="text" placeholder="Add a Todo..." class="title-box box"/>
-          <span class="image">
-            <img src="svg/create.svg" onclick="addTodo(event)" class="create-svg svg">
-          </span>
+      <div class="header">
+        <div class="task-adder">
+          <div style="display: flex;">
+            <input
+              type="text"
+              placeholder="Add a Todo..."
+              class="title-box box"
+            />
+            <span class="image">
+              <img
+                src="svg/create.svg"
+                onclick="addTodo(event)"
+                class="create-svg svg"
+              />
+            </span>
+          </div>
+        </div>
+        <div class="searchBox">
+          <input type="text" id="search" placeholder="Search Todo..." oninput="search()" class="searchText box">
+          <img src="svg/search.svg" class="svg search" onclick="search()">
         </div>
       </div>
       <div class="todo-lists"></div>

@@ -24,7 +24,7 @@ describe('GET', () => {
       request(app.handleRequest.bind(app))
         .get('/')
         .expect(statusCodes.OK)
-        .expect('Content-Length', '780')
+        .expect('Content-Length', '1190')
         .expect('Content-Type', 'text/html')
         .expect(/<title>TODO<\/title>/, done);
     });
