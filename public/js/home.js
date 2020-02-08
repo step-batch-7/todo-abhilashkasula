@@ -30,40 +30,21 @@ const removeTask = function() {
   const [, subTask,, task] = event.path;
   const [subTaskId, taskId] = [subTask, task].map(elem => elem.id);
   const body = `todoId=${taskId}&taskId=${subTaskId}`;
-  sendXHR('POST', '/removeTask', body, text => showTasks(taskId, text));
+  sendXHR('POST', '/removeTask', body, showTodos);
 };
 
 const addTask = function(id) {
   const textBox = event.target.previousElementSibling;
   const text = textBox.value;
   const body = `id=${id}&task=${text}`;
-  text && sendXHR('POST', '/addTask', body, text => showTasks(id, text));
-  textBox.value = '';
-  const toggler = document.querySelector(`img[onclick="toggleTasks(${id})"]`);
-  toggler.classList.contains('initial') && toggler.click(); 
+  text && sendXHR('POST', '/addTask', body, showTodos);
+  textBox.value = ''; 
 };
 
 const convertHtmlTextToNode = function(html) {
   const temp = document.createElement('div');
   temp.innerHTML = html;
   return temp.firstChild;
-};
-
-const rotate = function() {
-  const target = event.target;
-  if(target.classList.contains('rotated')) {
-    target.classList.remove('rotated', 'rotate');
-    return target.classList.add('rotate-back', 'initial');
-  }
-  target.classList.remove('initial', 'rotate-back'); 
-  target.classList.add('rotate', 'rotated');
-};
-
-const toggleTasks = function(id) {
-  rotate();
-  const tasks = document.querySelector(`.task-container[id="${id}"]`).lastChild;
-  const display = tasks.style['display'];
-  tasks.style['display'] = display === 'flex' ? 'none' : 'flex';
 };
 
 const selectTitle = function() {
@@ -77,54 +58,29 @@ const createTodoHeader = function(title, id) {
   const html = `<div class="task-headline">
     <div><input class="box task-title"
     type="text" onfocusout="changeTitle(${id})" value="${title}"> </div>
-    <div><img src="svg/arrow.svg" class="svg arrow"onclick="toggleTasks(${id})">
-    <img src="svg/edit.svg" class="svg svg-edit" onclick="selectTitle()">
-    <img src="svg/plus.svg" class="svg plus" onclick="toggleTaskAdder()">
+    <div><img src="svg/edit.svg" class="svg svg-edit" onclick="selectTitle()">
     <img src="svg/remove.svg" class="${classes}" onclick="deleteTodo()"></div>
     </div>`;
   return convertHtmlTextToNode(html);
 };
 
-const toggleTaskAdder = function() {
-  const [,, sibling] = event.path;
-  const taskAdder = sibling.nextElementSibling;
-  const display = taskAdder.style['display'];
-  taskAdder.style['display'] = display === 'flex' ? 'none' : 'flex';
-};
-
-const showTasks = function(todoId, text) {
-  const container = document.querySelector(`.task-container[id="${todoId}"]`);
-  const subTasks = container.lastChild;
-  const todoJSON = JSON.parse(text);
-  const todo = todoJSON.find(todo => todo.id === +todoId);
-  subTasks.innerHTML = todo.tasks.reduce(generateTasks, '');
-};
-
 const changeTitle = function(id) {
-  const textBox = event.target;
-  const render = function(text) { 
-    const todo = JSON.parse(text);
-    textBox.value = todo.title;
-  };
-  sendXHR('POST', '/changeTitle', `id=${id}&title=${textBox.value}`, render);
+  const text = event.target.value;
+  sendXHR('POST', '/changeTitle', `id=${id}&title=${text}`, showTodos);
 };
 
 const changeStatus = function() {
   const [, target,, parent] = event.path;
   const [taskId, todoId] = [target, parent].map(elem => elem.id);
   const body = `todoId=${todoId}&taskId=${taskId}`;
-  sendXHR('POST', '/changeTaskStatus', body, (text) => showTasks(todoId, text));
+  sendXHR('POST', '/changeTaskStatus', body, showTodos);
 };
 
 const changeTask = function(id) {
   const [target,,, parent] = event.path;
   const todoId = parent.id;
-  const render = function(text) { 
-    const task = JSON.parse(text).tasks.find(task => task.id === +id);
-    target.innerText = task.name;
-  };
   const body = `todoId=${todoId}&taskId=${id}&task=${target.innerText}`;
-  sendXHR('POST', '/changeTask', body, render);
+  sendXHR('POST', '/changeTask', body, showTodos);
 };
 
 const generateTasks = function(subTasksHtml, {id, name, isCompleted}) {
