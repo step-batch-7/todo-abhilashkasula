@@ -160,24 +160,6 @@ body {
   margin-left: 4px;
 }
 
-.plus {
-  margin-top: 3px;
-  height: 16px;
-}
-
-.image {
-  border-radius: 12%;
-  display: flex;
-  width: 23px;
-  height: 23px;
-  margin-top: 1px;
-}
-
-.image:hover {
-  background-color: #ececec;
-  box-shadow: inset 0px 1px 4px 0px rgb(183, 181, 181);
-}
-
 p {
   margin: 0px;
   margin-top: 10px;
