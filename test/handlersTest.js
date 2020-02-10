@@ -19,10 +19,44 @@ describe('GET', () => {
     sinon.restore();
   });
 
-  describe('Home Page', () => {
-    it('should get the home.html for "/" path', done => {
+  describe('Login Page', () => {
+    it('should redirect to home for "/login.html" with cookie', done => {
+      request(app.handleRequest.bind(app))
+        .get('/login.html')
+        .set('cookie', 'session-id=1')
+        .expect(statusCodes.REDIRECT)
+        .expect('Location', '/home.html', done);
+    });
+
+    it('should get the login for "/login.html" without cookie', done => {
+      request(app.handleRequest.bind(app))
+        .get('/login.html')
+        .expect(statusCodes.OK)
+        .expect('Content-Length', '644')
+        .expect('Content-Type', 'text/html')
+        .expect(/<title>Login<\/title>/, done);
+    });
+
+    it('should redirect to login for "/"', done => {
       request(app.handleRequest.bind(app))
         .get('/')
+        .expect(statusCodes.REDIRECT)
+        .expect('Location', '/login.html', done);
+    });
+  });
+
+  describe('Home Page', () => {
+    it('should redirect to login for "/home.html" without cookie', done => {
+      request(app.handleRequest.bind(app))
+        .get('/home.html')
+        .expect(statusCodes.REDIRECT)
+        .expect('Location', '/login.html', done);
+    });
+
+    it('should get the home.html for "/home.html" path', done => {
+      request(app.handleRequest.bind(app))
+        .get('/home.html')
+        .set('cookie', 'session-id=1')
         .expect(statusCodes.OK)
         .expect('Content-Length', '1362')
         .expect('Content-Type', 'text/html')
