@@ -28,10 +28,16 @@
             </span>
           </div>
         </div>
-        <div class="searchBox">
-          <input type="text" id="search" placeholder="Search Todo..." oninput="search()" class="searchText box">
-          <img src="svg/search.svg" class="svg search" onclick="search()">
-        </div>
+        <div class="search-container">
+          <select>
+            <option>Title</option>
+            <option>Task</option>
+          </select>
+          <div class="searchBox">
+            <input type="text" id="search" placeholder="Search Todo..." oninput="search()" class="searchText box">
+            <img src="svg/search.svg" class="svg search" onclick="search()">
+          </div>
+        </div>  
       </div>
       <div class="todo-lists"></div>
     </div>

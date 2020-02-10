@@ -48,8 +48,14 @@ const addTask = function(id) {
 };
 
 const search = function() {
+  const [optionTag] = document.querySelector('select').selectedOptions;
+  const filterBy = optionTag.value;
   const text = document.querySelector('#search').value;
-  sendXHR('POST', '/search', `text=${text}`, showTodos);
+  let url = '/searchByTitle';
+  if(filterBy === 'Task') {
+    url = '/searchByTask';
+  }
+  sendXHR('POST', url, `text=${text}`, showTodos);
 };
 
 const convertHtmlTextToNode = function(html) {
