@@ -1,0 +1,51 @@
+body {
+  background-color: whitesmoke;
+  font-family: sans-serif;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h2 {
+  margin-top: 0px;
+  margin-bottom: 30px;
+}
+
+.container {
+  background-color: white;
+  padding: 30px;
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid rgba(30, 30, 30, 0.3);
+  border-radius: 5px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -70%);
+}
+
+.box {
+  width: 200px;
+  text-align: center;
+  border: 0px;
+  border-bottom: 1px solid rgba(30, 30, 30, 0.3);
+}
+
+.box:focus {
+  outline: none;
+}
+
+.submit {
+  height: 30px;
+  width: 75px;
+  background-color: #027fff;
+  color: white;
+  border-radius: 5px;
+  box-shadow: 3px 3px 3px white;
+  cursor: pointer;
+}
