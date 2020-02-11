@@ -88,14 +88,14 @@ body {
 .task-title {
   margin: 0px;
   font-weight: 800;
-  font-size: 18px;
+  font-size: 14px;
   color: #545454;
   width: 148px;
   margin-top: -2px;
 }
 
 .task-container {
-  width: 204px;
+  width: 270px;
   color: rgba(41, 39, 39, 0.8);
   border: 1px solid rgba(30, 30, 30, 0.3);
   margin-top: 28px;
@@ -223,7 +223,7 @@ p {
 
 .edit {
   width: 118px;
-  font-size: 15px;
+  font-size: 13px;
 }
 
 .svg-edit {

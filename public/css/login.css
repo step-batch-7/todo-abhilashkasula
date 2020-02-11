@@ -49,3 +49,7 @@ h2 {
   box-shadow: 3px 3px 3px white;
   cursor: pointer;
 }
+
+.submit:focus {
+  outline: none;
+}
