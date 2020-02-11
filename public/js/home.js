@@ -14,7 +14,7 @@ const sendXHR = (method, url, message, callback) => {
 };
 
 const addTodo = function() {
-  const inputBox = event.target.parentElement.previousElementSibling;
+  const inputBox = document.querySelector('.title-box');
   const text = inputBox.value;
   text && sendXHR('POST', '/addTodo', `title=${text}`, showTodos);
   inputBox.value = '';

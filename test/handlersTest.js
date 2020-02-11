@@ -32,7 +32,7 @@ describe('GET', () => {
       request(app.handleRequest.bind(app))
         .get('/login.html')
         .expect(statusCodes.OK)
-        .expect('Content-Length', '644')
+        .expect('Content-Length', '662')
         .expect('Content-Type', 'text/html')
         .expect(/<title>Login<\/title>/, done);
     });
